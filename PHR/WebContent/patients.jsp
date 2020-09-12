@@ -167,7 +167,7 @@
 													<input type=text name='email' placeholder="Email ID" class='form-control' required="required"/>
 													<br/>
 													<label>Patient Mobile</label>
-													<input type=text name='mobile' placeholder="Mobile" class='form-control' required="required" pattern="[0-9]{10}" title="Please enter 10 digit valid mobile number"/>
+													<input type=text name='mobile' placeholder="Mobile" class='form-control' required="required"  maxlength="10"  pattern="[0-9]{10}" title="Please enter 10 digit valid mobile number"/>
 													<br/>
 									      </div>
 									      <div class="modal-footer">
@@ -223,7 +223,7 @@
 												  <div class="modal-dialog shadow-lg p-3 mb-5 bg-white rounded" role="document">
 												    <div class="modal-content" style='background-color: #207dff; color: white;'>    
 												      <div class="modal-header">
-												        <h5 class="modal-title" id="exampleModalLabel" style='color: white;'>Add Patient</h5>
+												        <h5 class="modal-title" id="exampleModalLabel" style='color: white;'>Update Patient</h5>
 												        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												          <span aria-hidden="true">&times;</span>
 												        </button>
@@ -231,6 +231,7 @@
 															<form action='patient' method=post>
 														      <div class="modal-body">
 																		<input type=hidden name='reqtype' value='update' />
+																		<input type=hidden name='patientid' value='<%=p.getPatientId()%>' />
 																		<label>Patient First Name</label>
 																		<input value='<%=p.getFname() %>' type=text name='fname' placeholder="First Name" class='form-control' required="required"/>
 																		<br/>
@@ -265,12 +266,12 @@
 																		<input value='<%=p.getEmail() %>' type=text name='email' placeholder="Email ID" class='form-control' required="required"/>
 																		<br/>
 																		<label>Patient Mobile</label>
-																		<input value='<%=p.getMobile() %>' type=text name='mobile' placeholder="Mobile" class='form-control' required="required"  pattern="[0-9]{10}" title="Please enter 10 digit valid mobile number"/>
+																		<input value='<%=p.getMobile() %>' type=text name='mobile' placeholder="Mobile" class='form-control' required="required" pattern="[0-9]{10}" title="Please enter 10 digit valid mobile number"/>
 																		<br/>
 														      </div>
 														      <div class="modal-footer">
 														        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-														        <button type="submit" class="btn btn-success"><span class="icon-plus"></span> Add Patient</button>
+														        <button type="submit" class="btn btn-success"><span class="icon-plus"></span> Update Patient</button>
 														      </div>
 															</form>
 												    </div>
