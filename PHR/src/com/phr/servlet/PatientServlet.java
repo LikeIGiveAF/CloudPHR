@@ -75,9 +75,10 @@ public class PatientServlet extends HttpServlet {
 					pDao.delete(req.getParameter("patientid"));
 					resp.sendRedirect("patients.jsp?msg=Patient " + req.getParameter("patientid") + " Removed");
 				} else if (type.equals("update")) {
+										
 					Patient p = new Patient();
 					String dob = req.getParameter("dob");
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					p.setDob(new Date(sdf.parse(dob).getTime()));
 					p.setDoctor(user.getEmail());
 					p.setEmail(req.getParameter("email"));
@@ -88,6 +89,9 @@ public class PatientServlet extends HttpServlet {
 					p.setMobile(req.getParameter("mobile"));
 					p.setPatientId(req.getParameter("patientid"));
 					pDao.update(p);
+					
+					
+					
 					resp.sendRedirect(
 							"patients.jsp?msg=Patient " + p.getFname() + " " + p.getLname() + " Updated Successfully");
 				}
