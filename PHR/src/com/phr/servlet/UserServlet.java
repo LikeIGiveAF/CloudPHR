@@ -7,8 +7,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 import com.phr.dao.UserDAO;
+import com.phr.dao.Login_detailsDAO;
 import com.phr.model.User;
+import com.phr.model.Login_details;
 
 public class UserServlet extends HttpServlet
 {
@@ -18,6 +25,8 @@ public class UserServlet extends HttpServlet
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException
 	{
 		UserDAO dao = new UserDAO();
+		Login_detailsDAO loginDAO = new Login_detailsDAO();
+		DateFormat datetime = new SimpleDateFormat("dd-MMMM-yyyy, hh:mm:ss aa");
 
 		try
 		{
@@ -64,8 +73,22 @@ public class UserServlet extends HttpServlet
 			}
 			else if (request_type.equals("login"))
 			{
+				Date today = new Date();
+				Login_details login = new Login_details();
+				datetime.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+				String login_time = datetime.format(today);
 				String email = req.getParameter("email");
 				String password = req.getParameter("password");
+				login.setEmail(email);
+				login.setLoginTime(login_time);
+				loginDAO.register_intime(login);
+				Login_details login_details = loginDAO.getLogin(email);
+				if (login_details != null) {
+					String log_time = login_details.getLoginTime();
+					req.getSession().setAttribute("login_time", log_time);
+				}else {
+					req.getSession().setAttribute("login_time", login_time);
+				}
 				User user = dao.getUserDetails(email, password);
 				if (email == null || email.trim().length() == 0 || password == null || password.trim().length() == 0)
 				{
