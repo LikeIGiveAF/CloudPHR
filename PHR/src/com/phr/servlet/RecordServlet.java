@@ -125,7 +125,16 @@ public class RecordServlet extends HttpServlet
                d.setPatientID(req.getParameter("patientid"));
                d.setEntry_time(new Timestamp(System.currentTimeMillis()));
                dDao.write(d);
-               resp.sendRedirect("record?reqtype=read&patientid="+d.getPatientID());
+              
+               Patient patient = pDao.get(d.getPatientID());
+               String pin = pinDao.getPin(d.getPatientID());
+               Properties props = new Properties();
+			   props.load(new InputStreamReader(new FileInputStream(new File("/home/ubuntu/app.properties"))));
+			   String url = "http://" + props.getProperty("host") + ":" + props.getProperty("port")
+						+ "/PHR/patient_access.jsp";
+			   SendMessage.sendSms(patient.getMobile(), "Docotr has responded to your message. Use Patient ID: "+ d.getPatientID() +" and PIN: " + pin + "to access it in the PHR portal: "+url);               
+               
+			   resp.sendRedirect("record?reqtype=read&patientid="+d.getPatientID());
             }
                
             
