@@ -20,15 +20,16 @@ public class PatientDAO
       {
          con = DBConnection.connect();
          PreparedStatement ps = con.prepareStatement("insert into patients (patientid, doctor, email, fname, lname, mobile, dob, entry_time, gender) values (?,?,?,?,?,?,?,?,?) ");
-         ps.setString(1, model.getPatientId());
-         ps.setString(2, model.getDoctor());
-         ps.setString(3, model.getEmail());
-         ps.setString(4, model.getFname());
-         ps.setString(5, model.getLname());
-         ps.setString(6, model.getMobile());
-         ps.setDate(7, model.getDob());
-         ps.setTimestamp(8, model.getEntry_time());
-         ps.setString(9, model.getGender());
+         ps.setString(8, model.getPatientId());
+	 ps.setString(7, model.getPatientId());
+         ps.setString(1, model.getEmail());
+         ps.setString(2, model.getFname());
+         ps.setString(3, model.getLname());
+         ps.setString(4, model.getMobile());
+         ps.setDate(5, model.getDob());
+         ps.setTimestamp(6, model.getEntry_time());
+         ps.setString(7, model.getGender());
+	 ps.setString(6, model.getGender());
          ps.execute();
 
       }
