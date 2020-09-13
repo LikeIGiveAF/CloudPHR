@@ -1,6 +1,5 @@
 <%@page import="com.phr.model.User"%>
 <%
-	String login_time = (String) session.getAttribute("login_time");
    User u1 = (User) session.getAttribute("user");
    if (u1 == null)
    {
@@ -113,7 +112,6 @@
 									<span>Welcome</span> 
 								</h2>
 								<p><%=u1.getFname() %> <%=u1.getLname() %></p>
-								<p>Last Login: <%= login_time %></p>
 
 								<br/>
 								<%
