@@ -75,9 +75,23 @@ public class PatientServlet extends HttpServlet {
 					pDao.delete(req.getParameter("patientid"));
 					resp.sendRedirect("patients.jsp?msg=Patient " + req.getParameter("patientid") + " Removed");
 				} else if (type.equals("update")) {
+					
+				System.out.println("patient ID: "+req.getParameter("patientid"));
+					
+					
+					
+				Patient pat =pDao.get(req.getParameter("patientid"));
+			String existingMoblie = pat.getMobile();	
+				String newMobile = req.getParameter("mobile");	
+			
+				
+				
+					
+					
+				
 					Patient p = new Patient();
 					String dob = req.getParameter("dob");
-					SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 					p.setDob(new Date(sdf.parse(dob).getTime()));
 					p.setDoctor(user.getEmail());
 					p.setEmail(req.getParameter("email"));
@@ -88,6 +102,38 @@ public class PatientServlet extends HttpServlet {
 					p.setMobile(req.getParameter("mobile"));
 					p.setPatientId(req.getParameter("patientid"));
 					pDao.update(p);
+					
+					
+					
+					
+					
+					
+					if (!existingMoblie.equals(newMobile))
+					{
+						
+					
+					
+					Properties props = new Properties();
+					props.load(new InputStreamReader(new FileInputStream(new File("/home/ubuntu/app.properties"))));
+
+					String url = "http://" + props.getProperty("host") + ":" + props.getProperty("port")
+					+ "/PHR/patient_access.jsp";
+				
+					String pin = pinDao.getPin(p.getPatientId());
+					
+					SendMessage.sendSms(p.getMobile(),
+							"Patient ID: " + p.getPatientId() + "  Pin: " + pin + " Access your records here: " + url);
+					
+					
+					}
+
+					
+					
+					
+					
+					
+					
+					
 					resp.sendRedirect(
 							"patients.jsp?msg=Patient " + p.getFname() + " " + p.getLname() + " Updated Successfully");
 				}

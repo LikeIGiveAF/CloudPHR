@@ -120,12 +120,22 @@ public class RecordServlet extends HttpServlet
             else if (type.equals("dwrite"))
             {
                Discussion d = new Discussion();
+               
                d.setAuthor("Dr. "+ user.getFname()+" "+user.getLname());
                d.setData(req.getParameter("data"));
                d.setPatientID(req.getParameter("patientid"));
                d.setEntry_time(new Timestamp(System.currentTimeMillis()));
                dDao.write(d);
-               resp.sendRedirect("record?reqtype=read&patientid="+d.getPatientID());
+             
+               
+              String msgBody = "your docter" +user.getFname()+"   "+user.getLname()+"have responded to your question";
+              String pId = req.getParameter("patientid");
+              Patient p = pDao.get(pId);
+              String number = p.getMobile();
+      SendMessage.sendSms(number ,  msgBody);
+              
+             
+                resp.sendRedirect("record?reqtype=read&patientid="+d.getPatientID());
             }
                
             
